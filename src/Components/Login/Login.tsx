@@ -6,8 +6,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
-import LoginImg from "../../Assets/Images/login.png";
-import { relative } from "path";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -98,6 +97,7 @@ const reducer = (state: State, action: Action): State => {
 const Login = () => {
   const classes = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (state.username.trim() && state.password.trim()) {
@@ -115,10 +115,12 @@ const Login = () => {
 
   const handleLogin = () => {
     if (state.username === "admin@email.com" && state.password === "10decoders") {
+      navigate("/dashboard");
       dispatch({
         type: "loginSuccess",
         payload: "Admin Logged in Successfully",
       });
+      
     }else if (state.username === "hrmain@email.com" && state.password === "10dhr") {
         dispatch({
           type: "loginSuccess",
@@ -131,11 +133,19 @@ const Login = () => {
         });
       } 
     else {
-      dispatch({
-        type: "loginFailed",
-        payload: "Incorrect username or password",
-      });
-    }
+      if (state.username === "employee@email.com") {
+        dispatch({
+          type: "loginFailed",
+          payload: "Incorrect username ",
+        });}
+      else if(state.password === "10demp") {
+        dispatch({
+          type: "loginFailed",
+          payload: "Incorrect password ",
+        });
+      }
+      }
+      
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
