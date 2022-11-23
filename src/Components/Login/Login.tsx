@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -7,6 +7,10 @@ import CardActions from "@material-ui/core/CardActions";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { admin, hr,employee } from "../../Store/LoginReducers";
+import { AppState } from "../../Store/Index";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     container: {
@@ -99,6 +103,9 @@ const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
 
+  const login  = useSelector((state: AppState) => state.loggin); // see store.ts
+  const dispatche = useDispatch();
+  console.log('login',login);
   useEffect(() => {
     if (state.username.trim() && state.password.trim()) {
       dispatch({
@@ -120,17 +127,21 @@ const Login = () => {
         type: "loginSuccess",
         payload: "Admin Logged in Successfully",
       });
-      
+      dispatche(admin('admin'));
     }else if (state.username === "hrmain@email.com" && state.password === "10dhr") {
+      navigate("/dashboard");
         dispatch({
           type: "loginSuccess",
           payload: "HR Logged in Successfully",
         });
+        dispatche(hr('hr'));
       } else if (state.username === "employee@email.com" && state.password === "10demp") {
+        navigate("/dashboard");
         dispatch({
           type: "loginSuccess",
           payload: "Logged in Successfully",
         });
+        dispatche(employee('employee'));
       } 
     else {
       if (state.username === "employee@email.com") {
@@ -144,6 +155,7 @@ const Login = () => {
           payload: "Incorrect password ",
         });
       }
+      navigate("/");
       }
       
   };
