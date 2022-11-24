@@ -30,7 +30,7 @@ import { admin, hr,employee } from "../../Store/LoginReducers";
 import { AppState } from "../../Store/Index";
 
 import axios from 'axios';
-import Pages from '../Pages/Pages';
+import Pages from '../Pages/View';
 import EmployeeTable from '../Tables/EmployeeTable';
 import About from '../About/About';
 import Contact from '../Contact/Contact';
@@ -119,40 +119,7 @@ export default function MainDrawer() {
     setOpen(false);
   };
  
-  React.useEffect(() => {
-    async function getUsers() {
-        try {
-          // 👇️ const data: GetUsersResponse
-          const { data, status } = await axios.get(
-            'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users',
-            {
-              headers: {
-                Accept: 'application/json',
-              },
-            },
-          );
-      
-        console.log('userss',  data)
-          // 👇️ "response status is: 200"
-          console.log('response status is: ', status);
-      if(status == 200) {
-        setData(prevState => [...prevState, data])
-        console.log('dataa-->', data)
-      }
-          
-        } catch (error) {
-          if (axios.isAxiosError(error)) {
-            console.log('error message: ', error.message);
-            return error.message;
-          } else {
-            console.log('unexpected error: ', error);
-            return 'An unexpected error occurred';
-          }
-        }
-      }
-      
-      getUsers();
-  }, []);
+  
 
   const handleCick = (screen:string) => {
     setScreen(screen)
@@ -161,7 +128,7 @@ export default function MainDrawer() {
         navigate('/dashboard');
         break
       case 'Employees':
-        navigate('/employee')
+        navigate('/employees')
         break
       case 'Hr':
         navigate('/hr')

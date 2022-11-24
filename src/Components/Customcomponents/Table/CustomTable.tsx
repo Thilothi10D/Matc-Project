@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,6 +9,8 @@ import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function createData(
     id: number,
@@ -28,23 +30,44 @@ const rows = [
   createData(5, 'eeee', 9876543210, 'aaa@gmail.com', 'employe4'),
 ];
 
-export default function CustomTable() {
+// interface Props{
+//   id: number;
+//     email: string;
+//     name: string;
+//     dob: number;
+//     mobile: number;
+//     proj_id: number;
+//     team_id: number;
+// }
+export default function CustomTable(props: any) {
+
+  console.log('props--->', props.users);
+  const data = props.users;
+  const navigate = useNavigate();
+ 
+  const handleView = (row:any) =>{
+    console.log('rowww-->',row)
+    navigate('/view', { state: { row} });
+  }
+
+  
+    
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell align="center">Employee ID</TableCell>
+            <TableCell align="center"> ID</TableCell>
             <TableCell align="center">Name</TableCell>
             <TableCell align="center">Mobile</TableCell>
             <TableCell align="center">Email</TableCell>
-            <TableCell align="center">Role</TableCell>
+            <TableCell align="center">DOB</TableCell>
             <TableCell align="center">View Details</TableCell>
             <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row:any) => (
             <TableRow
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -53,13 +76,13 @@ export default function CustomTable() {
                 {row.id}
               </TableCell>
               <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.contact}</TableCell>
-              <TableCell align="center">{row.mail}</TableCell>
-              <TableCell align="center">{row.role}</TableCell>
-              <TableCell align="center"><MoreHorizIcon/></TableCell>
+              <TableCell align="center">{row.mobile}</TableCell>
+              <TableCell align="center">{row.email}</TableCell>
+              <TableCell align="center">{row.dob}</TableCell>
+              <TableCell align="center"><MoreHorizIcon style={{cursor: 'pointer'}} onClick={()=>{handleView(row)}}/></TableCell>
               <TableCell align="center">
               <div>
-              <EditIcon/><DeleteIcon/>
+              <EditIcon  /><DeleteIcon/>
               </div>
               </TableCell>
               {/* <TableCell align="center"><DeleteIcon/></TableCell> */}

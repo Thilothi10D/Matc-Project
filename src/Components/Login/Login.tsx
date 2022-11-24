@@ -8,7 +8,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { admin, hr,employee } from "../../Store/LoginReducers";
+import { admin, hr,employee,logedin } from "../../Store/LoginReducers";
 import { AppState } from "../../Store/Index";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -128,6 +128,8 @@ const Login = () => {
         payload: "Admin Logged in Successfully",
       });
       dispatche(admin('admin'));
+      dispatche(logedin(true));
+      // sessionStorage.setItem("login", login);
     }else if (state.username === "hrmain@email.com" && state.password === "10dhr") {
       navigate("/dashboard");
         dispatch({
@@ -135,6 +137,7 @@ const Login = () => {
           payload: "HR Logged in Successfully",
         });
         dispatche(hr('hr'));
+        dispatche(logedin(true));
       } else if (state.username === "employee@email.com" && state.password === "10demp") {
         navigate("/dashboard");
         dispatch({
@@ -142,6 +145,7 @@ const Login = () => {
           payload: "Logged in Successfully",
         });
         dispatche(employee('employee'));
+        dispatche(logedin(true))
       } 
     else {
       if (state.username === "employee@email.com") {
@@ -185,7 +189,7 @@ const Login = () => {
   };
   return (
     <>
-    <div> 
+    <div > 
         <div style={{ 
       backgroundImage: `url("	https://www.securitymagazine.com/ext/resources/images/employee-insider-freepik1170.jpg?1652972594")` ,
       position: 'relative', height:550, width: 900, marginLeft: 10, backgroundColor: "gray"
