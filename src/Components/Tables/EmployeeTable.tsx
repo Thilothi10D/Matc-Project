@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import CustomTable from '../Customcomponents/Table/CustomTable';
 import axios from 'axios';
-import { useNavigate, useLocation } from "react-router-dom";
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
+
 interface Props {
   islogin:boolean
 }
@@ -18,18 +20,45 @@ export default function EmployeeTable(props:Props) {
   };
 
   const [users, setUsers] = useState<Employees[]>([]);
-  
+  const [isOpen, setIsOpen] = useState(false);
   const {islogin} = props;
-  const navigate = useNavigate();
   console.log('login------->',islogin);
 
-  // const checkUser = () => {
-  //   if(!islogin) {
-  //     navigate('/')
-  //   }
-  // }
+  const handleDelete = (id:number) => {
+    console.log('iddd', id)
+        axios.delete('https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/' + id)
+        .then(response => {
+          console.log('Delete successful', response.status, response )
+          const Usr = users.filter((u)=> u.id !==id) 
+          if(response.status === 200){
+            setIsOpen(true);
+            setUsers(Usr);
+          }
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+        });
+
+  }
+
+  const handleEdit = (id:number) => {
+    console.log('iddd', id)
+        axios.put('https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/' + id)
+        .then(response => {
+          console.log('Delete successful', response)
+          const Usr = users.filter((u)=> u.id !==id) 
+          setUsers(Usr);
+
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+        });
+
+  }
+  
+  
+  
   React.useEffect(() => {
-    // checkUser();
     async function getUsers() {
         try {
           const { data, status } = await axios.get(
@@ -44,8 +73,9 @@ export default function EmployeeTable(props:Props) {
         console.log('userss--->',  data)
           console.log('response status is: ', status);
       if(status == 200) {
-        setUsers( data);
-        console.log('dataa-->', users)
+        const emps = data.filter((d:any)=> d.team_id !==0)
+        console.log('empsss', emps)
+        setUsers( emps);
       }
           
         } catch (error) {
@@ -62,11 +92,18 @@ export default function EmployeeTable(props:Props) {
       
       getUsers();
   }, []);
+  console.log('delmodal', isOpen);
   return (
     <>
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="md">
+        {/* <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} /> */}
+        <CustomTable users={users} handleDelete={handleDelete} strng='empdata'/>
+      </Container>
+    </React.Fragment>
     
-    
-    <CustomTable users={users}/>
+   
         
     </>
   )

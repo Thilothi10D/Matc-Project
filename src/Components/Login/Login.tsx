@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect } from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Card from "@material-ui/core/Card";
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-//state type
 
 type State = {
   username: string;
@@ -129,7 +128,6 @@ const Login = () => {
       });
       dispatche(admin('admin'));
       dispatche(logedin(true));
-      // sessionStorage.setItem("login", login);
     }else if (state.username === "hrmain@email.com" && state.password === "10dhr") {
       navigate("/dashboard");
         dispatch({

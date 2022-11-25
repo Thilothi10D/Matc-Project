@@ -1,8 +1,10 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import loggin from './LoginReducers';
+import modal from './ModalReducer';
 
 const rootReducer = combineReducers({
     loggin: loggin,
+    modal:modal,
 });
 
 const store = configureStore({

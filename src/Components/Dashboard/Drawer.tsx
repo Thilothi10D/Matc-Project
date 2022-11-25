@@ -23,17 +23,9 @@ import FeedbackIcon from '@mui/icons-material/Feedback';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import InfoIcon from '@mui/icons-material/Info';
 import Paper from '@mui/material/Paper';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { admin, hr,employee } from "../../Store/LoginReducers";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { AppState } from "../../Store/Index";
-
-import axios from 'axios';
-import Pages from '../Pages/View';
-import EmployeeTable from '../Tables/EmployeeTable';
-import About from '../About/About';
-import Contact from '../Contact/Contact';
 
 const drawerWidth = 240;
 
@@ -107,7 +99,6 @@ export default function MainDrawer() {
       };
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [data, setData] = React.useState<Employees[]>([]);
   const login  = useSelector((state: AppState) => state.loggin); 
   const [screen, setScreen] = React.useState<string>('');
   const navigate = useNavigate();
@@ -130,7 +121,7 @@ export default function MainDrawer() {
       case 'Employees':
         navigate('/employees')
         break
-      case 'Hr':
+      case 'HR':
         navigate('/hr')
         break
         case 'Contact':
