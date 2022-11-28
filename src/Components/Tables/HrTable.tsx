@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import CustomTable from '../Customcomponents/Table/CustomTable';
 import axios from 'axios';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 
 interface Props {
-  islogin:boolean
+  islogin: boolean
 }
-export default function HrTable(props:Props) {
+export default function HrTable(props: Props) {
 
   type Employees = {
     id: number;
@@ -21,70 +21,66 @@ export default function HrTable(props:Props) {
 
   const [users, setUsers] = useState<Employees[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const {islogin} = props;
-  console.log('login------->',islogin);
-
-  const handleDelete = (id:number) => {
+  const { islogin } = props;
+  
+  const handleDelete = (id: number) => {
     console.log('iddd', id)
-        axios.delete('https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/' + id)
-        .then(response => {
-          console.log('Delete successful', response.status, response )
-          const Usr = users.filter((u)=> u.id !==id) 
-          if(response.status === 200){
-            setIsOpen(true);
-            setUsers(Usr);
-          }
-        })
-        .catch(error => {
-            console.error('There was an error!', error);
-        });
+    axios.delete('https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/' + id)
+      .then(response => {
+        console.log('Delete successful', response.status, response)
+        const Usr = users.filter((u) => u.id !== id)
+        if (response.status === 200) {
+          setIsOpen(true);
+          setUsers(Usr);
+        }
+      })
+      .catch(error => {
+        console.error('There was an error!', error);
+      });
 
   }
-  
+
   React.useEffect(() => {
     async function getUsers() {
-        try {
-          const { data, status } = await axios.get(
-            'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users',
-            {
-              headers: {
-                Accept: 'application/json',
-              },
+      try {
+        const { data, status } = await axios.get(
+          'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users',
+          {
+            headers: {
+              Accept: 'application/json',
             },
-          );
-      
-        console.log('userss--->',  data)
-          console.log('response status is: ', status);
-          if(status == 200) {
-            const hrss = data.filter((d:any)=> d.team_id ===0)
-            console.log('hrssss', hrss)
-            setUsers( hrss);
-          }
-          
-        } catch (error) {
-          if (axios.isAxiosError(error)) {
-            console.log('error message: ', error.message);
-            return error.message;
-          } else {
-            console.log('unexpected error: ', error);
-            return 'An unexpected error occurred';
-          }
+          },
+        );
+
+        if (status == 200) {
+          const hrss = data.filter((d: any) => d.team_id === 0)
+          setUsers(hrss);
+        }
+
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log('error message: ', error.message);
+          return error.message;
+        } else {
+          console.log('unexpected error: ', error);
+          return 'An unexpected error occurred';
         }
       }
-      
-      
-      getUsers();
+    }
+
+
+    getUsers();
   }, []);
   return (
     <>
-    
-    <React.Fragment>
-      <CssBaseline />
-      <Container style={{ maxWidth: '100%' }}>
-        {/* <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} /> */}
-        <CustomTable users={users} handleDelete={handleDelete} strng='hrdata' />
-      </Container>
-    </React.Fragment>
+
+      <React.Fragment>
+        <CssBaseline />
+        <Container style={{ maxWidth: '100%' }}>
+          {/* <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} /> */}
+          <CustomTable users={users} handleDelete={handleDelete} strng='hrdata' />
+        </Container>
+      </React.Fragment>
     </>
   )
 }

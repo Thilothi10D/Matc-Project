@@ -14,8 +14,8 @@ export default function EditUser() {
         name: row.name ? row.name : '',
         mobile: row.mobile ? row.mobile : '',
         email: row.email ? row.email : '',
-        team_id: row.team_id ? row.team_id : '',
-        project_id: row.project_id ? row.project_id : '',
+        teamname: row.teamname ? row.teamname : '',
+        projectname: row.projectname ? row.projectname : '',
         qualification: row.qualification ? row.qualification : '',
         experience: row.experience ? row.experience : '',
         address: row.address ? row.address : '',
@@ -24,15 +24,16 @@ export default function EditUser() {
     const [users, setUsers] = useState(initialValues);
 
     console.log('editpropss', state, row);
-console.log('name------>', name)
+    const adminlog =  sessionStorage.getItem('adminlogin');
+    console.log('adminlog------>', adminlog, typeof adminlog)
     const handleOnchange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         console.log('e---->', e.target.value)
         setUsers({ ...users, [e.target.name]: e.target.value });
     }
 
     const handleEditUser = () => {
-        console.log('handleAddUser-->', 'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/'+ row.id , users)
-        axios.put('https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/'+ row.id , users)
+        console.log('handleAddUser-->', 'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/' + row.id, users)
+        axios.put('https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/users/' + row.id, users)
             .then(response => console.log('response', response))
             .catch(error => {
                 console.error('There was an error!', error);
@@ -62,7 +63,7 @@ console.log('name------>', name)
                         onChange={(e) => { handleOnchange(e) }}
                     />
                     <TextField
-                    style={{ width: '100%' }}
+                        style={{ width: '100%' }}
                         id="filled-password-input"
                         InputLabelProps={{ shrink: true }}
                         label="Email"
@@ -75,7 +76,7 @@ console.log('name------>', name)
                     />
 
                     <TextField
-                    style={{ width: '100%' }}
+                        style={{ width: '100%' }}
                         id="filled-password-input"
                         label="Mobile"
                         type="tel"
@@ -89,39 +90,39 @@ console.log('name------>', name)
                         value={users.mobile}
                         onChange={(e) => { handleOnchange(e) }}
                     />
-                   { name === 'empdata' &&  <>
-                   <TextField
-                    style={{ width: '100%' }}
-                        id="filled-password-input"
-                        InputLabelProps={{ shrink: true }}
-                        label="Team ID"
-                        type="text"
-                        autoComplete="current-password"
-                        variant="filled"
-                        name="team_id"
-                        value={users.team_id}
-                        onChange={(e) => { handleOnchange(e) }}
-                        inputProps={
-                            { readOnly: true, }
-                        }
-                    />
+                    {name === 'empdata' && <>
+                        <TextField
+                            style={{ width: '100%' }}
+                            id="filled-password-input"
+                            InputLabelProps={{ shrink: true }}
+                            label="Team ID"
+                            type="text"
+                            autoComplete="current-password"
+                            variant="filled"
+                            name="teamname"
+                            value={users.teamname}
+                            onChange={(e) => { handleOnchange(e) }}
+                            inputProps={
+                                { readOnly: adminlog =='true' ? false : true }
+                            }
+                        />
+                        <TextField
+                            style={{ width: '100%' }}
+                            id="filled-password-input"
+                            InputLabelProps={{ shrink: true }}
+                            label="Project ID "
+                            type="text"
+                            autoComplete="current-password"
+                            variant="filled"
+                            name="projectname"
+                            value={users.projectname}
+                            onChange={(e) => { handleOnchange(e) }}
+                            inputProps={
+                                { readOnly: adminlog == 'true' ? false : true  }
+                            }
+                        /></>}
                     <TextField
-                    style={{ width: '100%' }}
-                        id="filled-password-input"
-                        InputLabelProps={{ shrink: true }}
-                        label="Project ID "
-                        type="text"
-                        autoComplete="current-password"
-                        variant="filled"
-                        name="project_id"
-                        value={users.project_id}
-                        onChange={(e) => { handleOnchange(e) }}
-                        inputProps={
-                            { readOnly: true, }
-                        }
-                    /></> }
-                    <TextField
-                    style={{ width: '100%' }}
+                        style={{ width: '100%' }}
                         id="filled-password-input"
                         InputLabelProps={{ shrink: true }}
                         label="dob"
@@ -133,7 +134,7 @@ console.log('name------>', name)
                         onChange={(e) => { handleOnchange(e) }}
                     />
                     <TextField
-                    style={{ width: '100%' }}
+                        style={{ width: '100%' }}
                         id="filled-password-input"
                         InputLabelProps={{ shrink: true }}
                         label="Quaification"
@@ -145,7 +146,7 @@ console.log('name------>', name)
                         onChange={(e) => { handleOnchange(e) }}
                     />
                     <TextField
-                    style={{ width: '100%' }}
+                        style={{ width: '100%' }}
                         id="filled-password-input"
                         InputLabelProps={{ shrink: true }}
                         label="Experience "
@@ -157,7 +158,7 @@ console.log('name------>', name)
                         onChange={(e) => { handleOnchange(e) }}
                     />
                     <TextField
-                    style={{ width: '100%' }}
+                        style={{ width: '100%' }}
                         id="filled-password-input"
                         InputLabelProps={{ shrink: true }}
                         label="Address "

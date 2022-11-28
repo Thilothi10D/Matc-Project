@@ -14,16 +14,7 @@ import DeleteModal from '../../Modals/Deletemodal';
 import { useSelector, useDispatch } from "react-redux";
 import { modalopen, hrmodalopen } from '../../../Store/ModalReducer';
 import { AppState } from '../../../Store/Index';
-
-function createData(
-  id: number,
-  name: string,
-  contact: number,
-  mail: string,
-  role: string,
-) {
-  return { id, name, contact, mail, role };
-}
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 export default function CustomTable(props: any) {
   const data = props.users;
@@ -34,14 +25,13 @@ export default function CustomTable(props: any) {
   const dispatch = useDispatch();
 
   const handleView = (row: any) => {
-    console.log('rowww-->', row.proj_id === 0)
     navigate('/view', { state: { row } });
   }
 
   const handleEdit = (row: any) => {
-    navigate('/edituser', { state: { row:row, name: sdata } })
+    navigate('/edituser', { state: { row: row, name: sdata } })
   }
-  console.log('modal', data);
+  
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -50,9 +40,9 @@ export default function CustomTable(props: any) {
             <TableRow>
               <TableCell align="center"> ID</TableCell>
               <TableCell align="center">Name</TableCell>
-              <TableCell align="center">Mobile</TableCell>
               <TableCell align="center">Email</TableCell>
-              <TableCell align="center">DOB</TableCell>
+              <TableCell align="center">PROJECT</TableCell>
+              <TableCell align="center">TEAM</TableCell>
               <TableCell align="center">View Details</TableCell>
               <TableCell align="center">Actions</TableCell>
             </TableRow>
@@ -67,12 +57,12 @@ export default function CustomTable(props: any) {
                     {row.id}
                   </TableCell>
                   <TableCell align="center">{row.name}</TableCell>
-                  <TableCell align="center">{row.mobile}</TableCell>
                   <TableCell align="center">{row.email}</TableCell>
-                  <TableCell align="center">{row.dob}</TableCell>
-                  <TableCell align="center"><MoreHorizIcon style={{ cursor: 'pointer' }} onClick={() => { handleView(row) }} /></TableCell>
+                  <TableCell align="center">{row.projectname}</TableCell>
+                  <TableCell align="center">{row.teamname}</TableCell>
+                  <TableCell align="center"><VisibilityIcon style={{ cursor: 'pointer' }} onClick={() => { handleView(row) }} /></TableCell>
                   <TableCell align="center">
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly' }}>
                       <EditIcon style={{ cursor: 'pointer' }} onClick={() => { handleEdit(row) }} />
                       <DeleteIcon style={{ cursor: 'pointer' }} onClick={() => {
                         handleDelete(row.id);

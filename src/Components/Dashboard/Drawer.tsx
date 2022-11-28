@@ -112,10 +112,10 @@ export default function MainDrawer() {
 
   React.useEffect(() => {
     console.log('screen-->', login);
-    if(!login.name) {
-      adlogin &&  dispatch(admin('admin'));
-      hrlogin &&  dispatch(hr('hr'));
-      emplogin &&  dispatch(employee('employee'));
+    if (!login.name) {
+      adlogin && dispatch(admin('admin'));
+      hrlogin && dispatch(hr('hr'));
+      emplogin && dispatch(employee('employee'));
     }
   }, [])
 

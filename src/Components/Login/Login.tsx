@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { admin, hr, employee, logedin } from "../../Store/LoginReducers";
 import { AppState } from "../../Store/Index";
+import { Formik, Form, Field } from "formik";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -190,9 +191,10 @@ const Login = () => {
       payload: event.target.value,
     });
   };
+
   return (
     <>
-      <div >
+      <div>
         <div style={{
           backgroundImage: `url("	https://www.securitymagazine.com/ext/resources/images/employee-insider-freepik1170.jpg?1652972594")`,
           position: 'relative', height: 650, width: 900, marginLeft: 10, backgroundColor: "gray"
@@ -201,8 +203,9 @@ const Login = () => {
           <form className={classes.container} noValidate autoComplete="off">
             <Card className={classes.card}>
               <CardHeader className={classes.header} title="Login" />
+              
               <CardContent>
-                <div>
+              <div>
                   <TextField
                     error={state.isError}
                     fullWidth
@@ -240,9 +243,7 @@ const Login = () => {
                   Login
                 </Button>
               </CardActions>
-              <CardActions>
-                <Button size="small" className={classes.loginBtn}>Sign Up</Button>
-              </CardActions>
+               
             </Card>
           </form>
         </div>

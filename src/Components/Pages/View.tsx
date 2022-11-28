@@ -18,63 +18,63 @@ export default function ViewCard() {
     navigate('/employees')
   }
 
-  useEffect(() => {
-    async function getProjects() {
-      console.log('id--->', row);
-      try {
-        const { data, status } = await axios.get(
-          'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/projects/' + row.project_id,
-          {
-            headers: {
-              Accept: 'application/json',
-            },
-          },
-        );
-        { status === 200 &&
-          console.log('projectnamee', data.proj_name)
-          setProject(data.proj_name);
-        }
+  // useEffect(() => {
+  //   async function getProjects() {
+  //     console.log('id--->', row);
+  //     try {
+  //       const { data, status } = await axios.get(
+  //         'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/projects/' + row.project_id,
+  //         {
+  //           headers: {
+  //             Accept: 'application/json',
+  //           },
+  //         },
+  //       );
+  //       { status === 200 &&
+  //         console.log('projectnamee', data.proj_name)
+  //         setProject(data.proj_name);
+  //       }
 
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log('error message: ', error.message);
-          return error.message;
-        } else {
-          console.log('unexpected error: ', error);
-          return 'An unexpected error occurred';
-        }
-      }
-    }
-    async function getTeams() {
-      console.log('id--->', row);
-      try {
-        const { data, status } = await axios.get(
-          'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/teams/' + row.team_id,
-          {
-            headers: {
-              Accept: 'application/json',
-            },
-          },
-        );
-        console.log('team--->', data.team_name)
-        console.log('response status is: ', status);
-        {status === 200 &&
-          setTeam(data.team_name);
-        }
+  //     } catch (error) {
+  //       if (axios.isAxiosError(error)) {
+  //         console.log('error message: ', error.message);
+  //         return error.message;
+  //       } else {
+  //         console.log('unexpected error: ', error);
+  //         return 'An unexpected error occurred';
+  //       }
+  //     }
+  //   }
+  //   async function getTeams() {
+  //     console.log('id--->', row);
+  //     try {
+  //       const { data, status } = await axios.get(
+  //         'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/teams/' + row.team_id,
+  //         {
+  //           headers: {
+  //             Accept: 'application/json',
+  //           },
+  //         },
+  //       );
+  //       console.log('team--->', data.team_name)
+  //       console.log('response status is: ', status);
+  //       {status === 200 &&
+  //         setTeam(data.team_name);
+  //       }
 
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log('error message: ', error.message);
-          return error.message;
-        } else {
-          console.log('unexpected error: ', error);
-          return 'An unexpected error occurred';
-        }
-      }
-    }
-    getTeams();
-    getProjects();
-  }, [])
+  //     } catch (error) {
+  //       if (axios.isAxiosError(error)) {
+  //         console.log('error message: ', error.message);
+  //         return error.message;
+  //       } else {
+  //         console.log('unexpected error: ', error);
+  //         return 'An unexpected error occurred';
+  //       }
+  //     }
+  //   }
+  //   getTeams();
+  //   getProjects();
+  // }, [])
 
   console.log('projectteam--->', project, team)
 
@@ -88,13 +88,16 @@ export default function ViewCard() {
         <Typography sx={{ fontSize: 14 }}  variant="h4" gutterBottom>
           Name: {row.name}
         </Typography>
+        <Typography sx={{ fontSize: 14 }}  variant="h4" gutterBottom>
+          DOB: {row.dob}
+        </Typography>
         {row.proj_id !== 0 && row.team_id !==0 ? (
           <>
           <Typography sx={{ fontSize: 14 }}  variant="h4" gutterBottom>
-          Project Name: {project}
+          Project Name: {row.projectname}
         </Typography>
         <Typography sx={{ fontSize: 14 }}  variant="h4" gutterBottom>
-          Team name: {team}
+          Team name: {row.teamname}
         </Typography></>
         ) : (
           <Typography sx={{ fontSize: 14 }} variant="h4" gutterBottom>
@@ -104,7 +107,16 @@ export default function ViewCard() {
         <Typography sx={{ fontSize: 14 }} variant="h4" gutterBottom>
           Email: {row.email}
           <br />
-
+          
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} variant="h4" gutterBottom>
+          Role: {row.address}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} variant="h4" gutterBottom>
+          Role: {row.experience}
+        </Typography>
+        <Typography sx={{ fontSize: 14 }} variant="h4" gutterBottom>
+          Role: {row.qualification}
         </Typography>
         <Button size="small" onClick={() => { handleBack() } } style={{textAlign:'center'}}>Back</Button>
       </CardContent>

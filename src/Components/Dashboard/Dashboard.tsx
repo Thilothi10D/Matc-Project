@@ -15,12 +15,10 @@ export default function Dashboard() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm" style={{textAlign:'center'}}>
-        <Button variant="contained" color="success" onClick={()=>{handleClick()}}>
-      
-        Add Employee
-      </Button>
-     
+      <Container maxWidth="sm" style={{ textAlign: 'center' }}>
+        <Button variant="contained" color="success" onClick={() => { handleClick() }}>
+          Add Employee
+        </Button>
       </Container>
     </React.Fragment>
   );
