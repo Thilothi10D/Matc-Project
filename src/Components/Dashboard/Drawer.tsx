@@ -24,8 +24,9 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import InfoIcon from '@mui/icons-material/Info';
 import Paper from '@mui/material/Paper';
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../Store/Index";
+import { admin, employee, hr } from '../../Store/LoginReducers';
 
 const drawerWidth = 240;
 
@@ -53,13 +54,13 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  }));
-  
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(2),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -86,33 +87,44 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-
 export default function MainDrawer() {
-    type Employees = {
-        id: number;
-        email: string;
-        name: string;
-        dob: number;
-        mobile: number;
-        proj_id: number;
-        team_id: number;
-      };
+  type Employees = {
+    id: number;
+    email: string;
+    name: string;
+    dob: number;
+    mobile: number;
+    proj_id: number;
+    team_id: number;
+  };
   const theme = useTheme();
+  const login = useSelector((state: AppState) => state.loggin);
+  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
-  const login  = useSelector((state: AppState) => state.loggin); 
   const [screen, setScreen] = React.useState<string>('');
+  const adlogin = sessionStorage.getItem('adminlogin');
+  const hrlogin = sessionStorage.getItem('hrlogin');
+  const emplogin = sessionStorage.getItem('employeelogin');
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
 
+  React.useEffect(() => {
+    console.log('screen-->', login);
+    if(!login.name) {
+      adlogin &&  dispatch(admin('admin'));
+      hrlogin &&  dispatch(hr('hr'));
+      emplogin &&  dispatch(employee('employee'));
+    }
+  }, [])
+
   const handleDrawerClose = () => {
+    console.log('handleDrawerClose');
     setOpen(false);
   };
- 
-  
 
-  const handleCick = (screen:string) => {
+  const handleCick = (screen: string) => {
     setScreen(screen)
     switch (screen) {
       case 'Dashboard':
@@ -124,22 +136,20 @@ export default function MainDrawer() {
       case 'HR':
         navigate('/hr')
         break
-        case 'Contact':
-          navigate('/contact')
-          break
-        case 'About Us':
-          navigate('/about')
-          break
-        case 'Feedback & Concern':
-          navigate('/feedback')
-          break
+      case 'Contact':
+        navigate('/contact')
+        break
+      case 'About Us':
+        navigate('/about')
+        break
+      case 'Feedback & Concern':
+        navigate('/feedback')
+        break
       default:
         console.log(`Sorry, we are out of ${screen}.`);
     }
   }
-  console.log('screen-->', screen);
 
-  
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -168,7 +178,7 @@ export default function MainDrawer() {
             boxSizing: 'border-box',
           },
         }}
-        variant="persistent"
+        ModalProps={{ onBackdropClick: handleDrawerClose }}
         anchor="left"
         open={open}
       >
@@ -179,61 +189,59 @@ export default function MainDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-        <ListItem  disablePadding>
-              <ListItemButton onClick={() => {handleCick('Dashboard')}}>
-                <ListItemIcon>
-                  <DashboardIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'Dashboard'} />
-              </ListItemButton>
-            </ListItem>
-           {login.name == 'admin' && <ListItem  disablePadding>
-              <ListItemButton onClick={() => {handleCick('HR')}}>
-                <ListItemIcon>
-                  <ManageAccountsIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'HR'} />
-              </ListItemButton>
-            </ListItem>}
-            <ListItem  disablePadding>
-              <ListItemButton onClick={() => {handleCick('Employees')}}>
-                <ListItemIcon>
-                  <GroupsIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'Employees'} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  disablePadding>
-              <ListItemButton onClick={() => {handleCick('Contact')}}>
-                <ListItemIcon>
-                  <ContactsIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'Contact'} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  disablePadding>
-              <ListItemButton onClick={() => {handleCick('About Us')}}>
-                <ListItemIcon>
-                  <InfoIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'About Us'} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  disablePadding>
-              <ListItemButton onClick={() => {handleCick('Feedback & Concern')}}>
-                <ListItemIcon>
-                  <FeedbackIcon/>
-                </ListItemIcon>
-                <ListItemText primary={'Feedback & Concern'} />
-              </ListItemButton>
-            </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => { handleCick('Dashboard') }}>
+              <ListItemIcon>
+                <DashboardIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Dashboard'} />
+            </ListItemButton>
+          </ListItem>
+          {login.name == 'admin' && <ListItem disablePadding>
+            <ListItemButton onClick={() => { handleCick('HR') }}>
+              <ListItemIcon>
+                <ManageAccountsIcon />
+              </ListItemIcon>
+              <ListItemText primary={'HR'} />
+            </ListItemButton>
+          </ListItem>}
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => { handleCick('Employees') }}>
+              <ListItemIcon>
+                <GroupsIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Employees'} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => { handleCick('Contact') }}>
+              <ListItemIcon>
+                <ContactsIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Contact'} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => { handleCick('About Us') }}>
+              <ListItemIcon>
+                <InfoIcon />
+              </ListItemIcon>
+              <ListItemText primary={'About Us'} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={() => { handleCick('Feedback & Concern') }}>
+              <ListItemIcon>
+                <FeedbackIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Feedback & Concern'} />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
-       
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-       
       </Main>
     </Box>
   );

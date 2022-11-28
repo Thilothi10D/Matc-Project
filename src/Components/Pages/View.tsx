@@ -23,7 +23,7 @@ export default function ViewCard() {
       console.log('id--->', row);
       try {
         const { data, status } = await axios.get(
-          'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/projects/' + row.proj_id,
+          'https://637cb99572f3ce38eaabb3a4.mockapi.io/hightechservice/projects/' + row.project_id,
           {
             headers: {
               Accept: 'application/json',
@@ -88,7 +88,7 @@ export default function ViewCard() {
         <Typography sx={{ fontSize: 14 }}  variant="h4" gutterBottom>
           Name: {row.name}
         </Typography>
-        {row.proj_id && row.team_id ? (
+        {row.proj_id !== 0 && row.team_id !==0 ? (
           <>
           <Typography sx={{ fontSize: 14 }}  variant="h4" gutterBottom>
           Project Name: {project}

@@ -56,9 +56,9 @@ export default function HrTable(props:Props) {
         console.log('userss--->',  data)
           console.log('response status is: ', status);
           if(status == 200) {
-            const emps = data.filter((d:any)=> d.team_id ===0)
-            console.log('empsss', emps)
-            setUsers( emps);
+            const hrss = data.filter((d:any)=> d.team_id ===0)
+            console.log('hrssss', hrss)
+            setUsers( hrss);
           }
           
         } catch (error) {
@@ -80,7 +80,7 @@ export default function HrTable(props:Props) {
     
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md">
+      <Container style={{ maxWidth: '100%' }}>
         {/* <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} /> */}
         <CustomTable users={users} handleDelete={handleDelete} strng='hrdata' />
       </Container>

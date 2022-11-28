@@ -8,7 +8,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { admin, hr,employee,logedin } from "../../Store/LoginReducers";
+import { admin, hr, employee, logedin } from "../../Store/LoginReducers";
 import { AppState } from "../../Store/Index";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -17,8 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       width: 400,
-      height: 451,
+      height: 500,
       marginLeft: 987,
+      marginTop: 30,
     },
     loginBtn: {
       marginTop: theme.spacing(2),
@@ -102,9 +103,9 @@ const Login = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const navigate = useNavigate();
 
-  const login  = useSelector((state: AppState) => state.loggin); // see store.ts
+  const login = useSelector((state: AppState) => state.loggin); // see store.ts
   const dispatche = useDispatch();
-  console.log('login',login);
+  console.log('login', login);
   useEffect(() => {
     if (state.username.trim() && state.password.trim()) {
       dispatch({
@@ -128,38 +129,42 @@ const Login = () => {
       });
       dispatche(admin('admin'));
       dispatche(logedin(true));
-    }else if (state.username === "hrmain@email.com" && state.password === "10dhr") {
+      sessionStorage.setItem('adminlogin', 'true')
+    } else if (state.username === "hrmain@email.com" && state.password === "10dhr") {
       navigate("/dashboard");
-        dispatch({
-          type: "loginSuccess",
-          payload: "HR Logged in Successfully",
-        });
-        dispatche(hr('hr'));
-        dispatche(logedin(true));
-      } else if (state.username === "employee@email.com" && state.password === "10demp") {
-        navigate("/dashboard");
-        dispatch({
-          type: "loginSuccess",
-          payload: "Logged in Successfully",
-        });
-        dispatche(employee('employee'));
-        dispatche(logedin(true))
-      } 
+      dispatch({
+        type: "loginSuccess",
+        payload: "HR Logged in Successfully",
+      });
+      dispatche(hr('hr'));
+      dispatche(logedin(true));
+      sessionStorage.setItem('hrlogin', 'true')
+    } else if (state.username === "employee@email.com" && state.password === "10demp") {
+      navigate("/dashboard");
+      dispatch({
+        type: "loginSuccess",
+        payload: "Logged in Successfully",
+      });
+      dispatche(employee('employee'));
+      dispatche(logedin(true))
+      sessionStorage.setItem('employeelogin', 'true')
+    }
     else {
       if (state.username === "employee@email.com") {
         dispatch({
           type: "loginFailed",
           payload: "Incorrect username ",
-        });}
-      else if(state.password === "10demp") {
+        });
+      }
+      else if (state.password === "10demp") {
         dispatch({
           type: "loginFailed",
           payload: "Incorrect password ",
         });
       }
       navigate("/");
-      }
-      
+    }
+
   };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
@@ -187,64 +192,62 @@ const Login = () => {
   };
   return (
     <>
-    <div > 
-        <div style={{ 
-      backgroundImage: `url("	https://www.securitymagazine.com/ext/resources/images/employee-insider-freepik1170.jpg?1652972594")` ,
-      position: 'relative', height:550, width: 900, marginLeft: 10, backgroundColor: "gray"
-    }}>
-        
-         <form className={classes.container} noValidate autoComplete="off">
-      <Card className={classes.card}>
-        <CardHeader className={classes.header} title="Login" />
-        <CardContent>
-          <div>
-            <TextField
-              error={state.isError}
-              fullWidth
-              id="username"
-              type="email"
-              label="Username"
-              placeholder="Username"
-              margin="normal"
-              onChange={handleUsernameChange}
-              onKeyPress={handleKeyPress}
-            />
-            <TextField
-              error={state.isError}
-              fullWidth
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="Password"
-              margin="normal"
-              helperText={state.helperText}
-              onChange={handlePasswordChange}
-              onKeyPress={handleKeyPress}
-            />
-          </div>
-        </CardContent>
-        <CardActions>
-          <Button
-            variant="contained"
-            size="large"
-            color="secondary"
-            className={classes.loginBtn}
-            onClick={handleLogin}
-            disabled={state.isButtonDisabled}
-          >
-            Login
-          </Button>
-        </CardActions>
-        <CardActions>
-      <Button size="small" className={classes.loginBtn}>Sign Up</Button>
-    </CardActions>
-      </Card>
-      </form>
+      <div >
+        <div style={{
+          backgroundImage: `url("	https://www.securitymagazine.com/ext/resources/images/employee-insider-freepik1170.jpg?1652972594")`,
+          position: 'relative', height: 650, width: 900, marginLeft: 10, backgroundColor: "gray"
+        }}>
+
+          <form className={classes.container} noValidate autoComplete="off">
+            <Card className={classes.card}>
+              <CardHeader className={classes.header} title="Login" />
+              <CardContent>
+                <div>
+                  <TextField
+                    error={state.isError}
+                    fullWidth
+                    id="username"
+                    type="email"
+                    label="Username"
+                    placeholder="Username"
+                    margin="normal"
+                    onChange={handleUsernameChange}
+                    onKeyPress={handleKeyPress}
+                  />
+                  <TextField
+                    error={state.isError}
+                    fullWidth
+                    id="password"
+                    type="password"
+                    label="Password"
+                    placeholder="Password"
+                    margin="normal"
+                    helperText={state.helperText}
+                    onChange={handlePasswordChange}
+                    onKeyPress={handleKeyPress}
+                  />
+                </div>
+              </CardContent>
+              <CardActions>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="secondary"
+                  className={classes.loginBtn}
+                  onClick={handleLogin}
+                  disabled={state.isButtonDisabled}
+                >
+                  Login
+                </Button>
+              </CardActions>
+              <CardActions>
+                <Button size="small" className={classes.loginBtn}>Sign Up</Button>
+              </CardActions>
+            </Card>
+          </form>
+        </div>
       </div>
-      </div>
-       
-      
-      </>
+    </>
   );
 };
 

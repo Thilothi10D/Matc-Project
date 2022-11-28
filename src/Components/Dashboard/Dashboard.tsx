@@ -11,16 +11,16 @@ export default function Dashboard() {
   const handleClick = () => {
     navigate('/adduser')
   }
+
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm">
-        <Box sx={{ bgcolor: '#cfe8fc', height: '100vh' }} >
+      <Container maxWidth="sm" style={{textAlign:'center'}}>
         <Button variant="contained" color="success" onClick={()=>{handleClick()}}>
       
-        Success
+        Add Employee
       </Button>
-      </Box>
+     
       </Container>
     </React.Fragment>
   );
